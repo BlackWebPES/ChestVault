@@ -88,7 +88,7 @@ class Main extends PluginBase implements Listener
                 "# particles" => "Decorate VaultChest...",
                 "particles" => true,
                 "# p-ticks" => "Particle ticks",
-                "p-ticks" => 20,
+                "p-ticks" => 30,
                 "# base-block" => "Block to use for the base",
                 "base-block" => "BEDROCK",
             ]
@@ -101,7 +101,7 @@ class Main extends PluginBase implements Listener
 
         $bl = Item::fromString($cf["settings"]["base-block"]);
         if ($bl->getBlock()->getId() == Item::AIR) {
-            $this->getLogger()->warning(mc::_("Invalid base-block %1%", $cf["settings"]["base-block"]));
+            $this->getLogger()->warning(mc::_("Invalid Base-Block %1%", $cf["settings"]["base-block"]));
             $this->base_block = Block::BEDROCK;
         } else {
             $this->base_block = $bl->getBlock()->getId();
@@ -159,7 +159,7 @@ class Main extends PluginBase implements Listener
         if ($ev->isCancelled()) return;
         $bl = $ev->getBlock();
         if ($bl->getId() != Block::CHEST || $bl->getSide(Vector3::SIDE_DOWN)->getId() != $this->base_block) return;
-        $ev->getPlayer()->sendMessage(mc::_("Placed a VaultChest"));
+        $ev->getPlayer()->sendMessage(mc::_("Placed A VaultChest"));
     }
 
     public function onBlockBreakEvent(BlockBreakEvent $ev)
@@ -175,7 +175,7 @@ class Main extends PluginBase implements Listener
             if (!$this->isVChest($inv)) return;
             $cid = self::chestId($inv);
             if (!isset($this->chests[$cid])) return;
-            $ev->getPlayer()->sendTip(mc::_("That VaultChest is in use!"));
+            $ev->getPlayer()->sendTip(mc::_("That VaultChest Is In Use"));
             $ev->setCancelled();
             return;
         }
@@ -207,7 +207,7 @@ class Main extends PluginBase implements Listener
         $inv = $ev->getInventory();
         if (!$this->isVChest($inv)) return;
         if ($this->unlockChest($player, $inv)) {
-            $player->sendMessage(mc::_("Closing VaultChest!"));
+            $player->sendMessage(mc::_("Closing VaultChest"));
             $this->saveInventory($player, $inv);
         }
     }
@@ -219,11 +219,11 @@ class Main extends PluginBase implements Listener
         $inv = $ev->getInventory();
         if (!$this->isVChest($inv)) return;
         if (!$this->lockChest($player, $inv)) {
-            $player->sendTip(mc::_("That VaultChest is in use!"));
+            $player->sendTip(mc::_("That VaultChest Is In Use"));
             $ev->setCancelled();
             return;
         }
-        $player->sendMessage(mc::_("Opening VaultChest!"));
+        $player->sendMessage(mc::_("Opening VaultChest"));
         $this->loadInventory($player, $inv);
     }
 
